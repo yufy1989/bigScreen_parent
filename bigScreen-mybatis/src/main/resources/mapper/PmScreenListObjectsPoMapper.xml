@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.asiainfo.mybatis.mapper.PmScreenListObjectsPoMapper" >
+  <resultMap id="BaseResultMap" type="com.asiainfo.mybatis.po.PmScreenListObjectsPo" >
+    <id column="OBJECT_ID" property="objectId" jdbcType="DECIMAL" />
+    <id column="OBJECT_KEY" property="objectKey" jdbcType="VARCHAR" />
+    <result column="OBJECT_VALUE" property="objectValue" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    OBJECT_ID, OBJECT_KEY, OBJECT_VALUE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />
+    from PM_SCREEN_LIST_OBJECTS
+    where OBJECT_ID = #{objectId,jdbcType=DECIMAL}
+      and OBJECT_KEY = #{objectKey,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="map" >
+    delete from PM_SCREEN_LIST_OBJECTS
+    where OBJECT_ID = #{objectId,jdbcType=DECIMAL}
+      and OBJECT_KEY = #{objectKey,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.asiainfo.mybatis.po.PmScreenListObjectsPo" >
+    insert into PM_SCREEN_LIST_OBJECTS (OBJECT_ID, OBJECT_KEY, OBJECT_VALUE
+      )
+    values (#{objectId,jdbcType=DECIMAL}, #{objectKey,jdbcType=VARCHAR}, #{objectValue,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.asiainfo.mybatis.po.PmScreenListObjectsPo" >
+    replace  into PM_SCREEN_LIST_OBJECTS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="objectId != null" >
+        OBJECT_ID,
+      </if>
+      <if test="objectKey != null" >
+        OBJECT_KEY,
+      </if>
+      <if test="objectValue != null" >
+        OBJECT_VALUE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="objectId != null" >
+        #{objectId,jdbcType=DECIMAL},
+      </if>
+      <if test="objectKey != null" >
+        #{objectKey,jdbcType=VARCHAR},
+      </if>
+      <if test="objectValue != null" >
+        #{objectValue,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.asiainfo.mybatis.po.PmScreenListObjectsPo" >
+    update PM_SCREEN_LIST_OBJECTS
+    <set >
+      <if test="objectValue != null" >
+        OBJECT_VALUE = #{objectValue,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where OBJECT_ID = #{objectId,jdbcType=DECIMAL}
+      and OBJECT_KEY = #{objectKey,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.asiainfo.mybatis.po.PmScreenListObjectsPo" >
+    update PM_SCREEN_LIST_OBJECTS
+    set OBJECT_VALUE = #{objectValue,jdbcType=VARCHAR}
+    where OBJECT_ID = #{objectId,jdbcType=DECIMAL}
+      and OBJECT_KEY = #{objectKey,jdbcType=VARCHAR}
+  </update>
+  
+  <delete id="deleteOldRecord">
+  		DELETE FROM PM_SCREEN_LIST_OBJECTS
+  		WHERE OBJECT_ID in
+		  <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+		        #{item}
+		  </foreach>
+  </delete>
+</mapper>

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.asiainfo.mybatis.mapper.PmScreenIndexManagerPoMapper" >
+  <resultMap id="BaseResultMap" type="com.asiainfo.mybatis.po.PmScreenIndexManagerPo" >
+    <id column="INDEX_CODE" property="indexCode" jdbcType="DECIMAL" />
+    <result column="COMPANY_CODE" property="companyCode" jdbcType="VARCHAR" />
+    <result column="INDEX_NAME" property="indexName" jdbcType="VARCHAR" />
+    <result column="TEMP_LIST_CODE" property="tempListCode" jdbcType="DECIMAL" />
+    <result column="LIST_CODE" property="listCode" jdbcType="DECIMAL" />
+    <result column="SCREEN_DESP" property="screenDesp" jdbcType="VARCHAR" />
+    <result column="DATA_DESP" property="dataDesp" jdbcType="VARCHAR" />
+    <result column="GET_DATA_SQL" property="getDataSql" jdbcType="VARCHAR" />
+    <result column="COLLECT_RATE" property="collectRate" jdbcType="DECIMAL" />
+    <result column="COLLECT_LAST_TIME" property="collectLastTime" jdbcType="TIMESTAMP" />
+    <result column="COLLECT_SWITCH" property="collectSwitch" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    INDEX_CODE, COMPANY_CODE, INDEX_NAME, TEMP_LIST_CODE, LIST_CODE, SCREEN_DESP, DATA_DESP, 
+    GET_DATA_SQL, COLLECT_RATE, COLLECT_LAST_TIME, COLLECT_SWITCH
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from PM_SCREEN_INDEX_MANAGER
+    where INDEX_CODE = #{indexCode,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from PM_SCREEN_INDEX_MANAGER
+    where INDEX_CODE = #{indexCode,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.asiainfo.mybatis.po.PmScreenIndexManagerPo" >
+    replace into PM_SCREEN_INDEX_MANAGER (INDEX_CODE, COMPANY_CODE, INDEX_NAME, 
+      TEMP_LIST_CODE, LIST_CODE, SCREEN_DESP, 
+      DATA_DESP, GET_DATA_SQL, COLLECT_RATE, 
+      COLLECT_LAST_TIME, COLLECT_SWITCH)
+    values (#{indexCode,jdbcType=DECIMAL}, #{companyCode,jdbcType=VARCHAR}, #{indexName,jdbcType=VARCHAR}, 
+      #{tempListCode,jdbcType=DECIMAL}, #{listCode,jdbcType=DECIMAL}, #{screenDesp,jdbcType=VARCHAR}, 
+      #{dataDesp,jdbcType=VARCHAR}, #{getDataSql,jdbcType=VARCHAR}, #{collectRate,jdbcType=DECIMAL}, 
+      #{collectLastTime,jdbcType=TIMESTAMP}, #{collectSwitch,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.asiainfo.mybatis.po.PmScreenIndexManagerPo" >
+    replace  into PM_SCREEN_INDEX_MANAGER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="indexCode != null" >
+        INDEX_CODE,
+      </if>
+      <if test="companyCode != null" >
+        COMPANY_CODE,
+      </if>
+      <if test="indexName != null" >
+        INDEX_NAME,
+      </if>
+      <if test="tempListCode != null" >
+        TEMP_LIST_CODE,
+      </if>
+      <if test="listCode != null" >
+        LIST_CODE,
+      </if>
+      <if test="screenDesp != null" >
+        SCREEN_DESP,
+      </if>
+      <if test="dataDesp != null" >
+        DATA_DESP,
+      </if>
+      <if test="getDataSql != null" >
+        GET_DATA_SQL,
+      </if>
+      <if test="collectRate != null" >
+        COLLECT_RATE,
+      </if>
+      <if test="collectLastTime != null" >
+        COLLECT_LAST_TIME,
+      </if>
+      <if test="collectSwitch != null" >
+        COLLECT_SWITCH,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="indexCode != null" >
+        #{indexCode,jdbcType=DECIMAL},
+      </if>
+      <if test="companyCode != null" >
+        #{companyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="indexName != null" >
+        #{indexName,jdbcType=VARCHAR},
+      </if>
+      <if test="tempListCode != null" >
+        #{tempListCode,jdbcType=DECIMAL},
+      </if>
+      <if test="listCode != null" >
+        #{listCode,jdbcType=DECIMAL},
+      </if>
+      <if test="screenDesp != null" >
+        #{screenDesp,jdbcType=VARCHAR},
+      </if>
+      <if test="dataDesp != null" >
+        #{dataDesp,jdbcType=VARCHAR},
+      </if>
+      <if test="getDataSql != null" >
+        #{getDataSql,jdbcType=VARCHAR},
+      </if>
+      <if test="collectRate != null" >
+        #{collectRate,jdbcType=DECIMAL},
+      </if>
+      <if test="collectLastTime != null" >
+        #{collectLastTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="collectSwitch != null" >
+        #{collectSwitch,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.asiainfo.mybatis.po.PmScreenIndexManagerPo" >
+    update PM_SCREEN_INDEX_MANAGER
+    <set >
+      <if test="companyCode != null" >
+        COMPANY_CODE = #{companyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="indexName != null" >
+        INDEX_NAME = #{indexName,jdbcType=VARCHAR},
+      </if>
+      <if test="tempListCode != null" >
+        TEMP_LIST_CODE = #{tempListCode,jdbcType=DECIMAL},
+      </if>
+      <if test="listCode != null" >
+        LIST_CODE = #{listCode,jdbcType=DECIMAL},
+      </if>
+      <if test="screenDesp != null" >
+        SCREEN_DESP = #{screenDesp,jdbcType=VARCHAR},
+      </if>
+      <if test="dataDesp != null" >
+        DATA_DESP = #{dataDesp,jdbcType=VARCHAR},
+      </if>
+      <if test="getDataSql != null" >
+        GET_DATA_SQL = #{getDataSql,jdbcType=VARCHAR},
+      </if>
+      <if test="collectRate != null" >
+        COLLECT_RATE = #{collectRate,jdbcType=DECIMAL},
+      </if>
+      <if test="collectLastTime != null" >
+        COLLECT_LAST_TIME = #{collectLastTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="collectSwitch != null" >
+        COLLECT_SWITCH = #{collectSwitch,jdbcType=CHAR},
+      </if>
+    </set>
+    where INDEX_CODE = #{indexCode,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.asiainfo.mybatis.po.PmScreenIndexManagerPo" >
+    update PM_SCREEN_INDEX_MANAGER
+    set COMPANY_CODE = #{companyCode,jdbcType=VARCHAR},
+      INDEX_NAME = #{indexName,jdbcType=VARCHAR},
+      TEMP_LIST_CODE = #{tempListCode,jdbcType=DECIMAL},
+      LIST_CODE = #{listCode,jdbcType=DECIMAL},
+      SCREEN_DESP = #{screenDesp,jdbcType=VARCHAR},
+      DATA_DESP = #{dataDesp,jdbcType=VARCHAR},
+      GET_DATA_SQL = #{getDataSql,jdbcType=VARCHAR},
+      COLLECT_RATE = #{collectRate,jdbcType=DECIMAL},
+      COLLECT_LAST_TIME = #{collectLastTime,jdbcType=TIMESTAMP},
+      COLLECT_SWITCH = #{collectSwitch,jdbcType=CHAR}
+    where INDEX_CODE = #{indexCode,jdbcType=DECIMAL}
+  </update>
+  <!-- 查询新单播报源数据 -->
+  <select id="selectNewsBroadcast" resultType="map">
+  <![CDATA[ 
+  	SELECT (case WHEN t.community_code is null or t.community_code = '' THEN (SELECT p.company_name FROM PM_COMPANY p WHERE p.company_code = t.company_code)
+		   WHEN t.community_code is not null THEN (SELECT pc.company_name FROM PM_COMMUNITY pc WHERE pc.community_code = t.community_code 
+		  AND pc.company_code = t.company_code) END) as area,SUBSTRING(t.repair_date,6,11) as pv,
+		  (case WHEN char_length(t.repair_reason) < 30 THEN t.repair_reason WHEN char_length(t.repair_reason) >= 30 
+		  THEN CONCAT(SUBSTRING(t.repair_reason,1,30),'...') END ) as attribute  
+		  FROM PM_REPAIR_MANAGE t 
+		  WHERE t.company_code in (SELECT ids.company_code FROM PM_COMPANY ids WHERE ids.company_code=#{companyCode})
+		  ORDER BY t.repair_date desc LIMIT 10 ]]>
+  </select>
+</mapper>

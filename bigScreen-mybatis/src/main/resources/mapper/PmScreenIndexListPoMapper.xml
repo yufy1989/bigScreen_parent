@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.asiainfo.mybatis.mapper.PmScreenIndexListPoMapper" >
+  <resultMap id="BaseResultMap" type="com.asiainfo.mybatis.po.PmScreenIndexListPo" >
+    <id column="LIST_CODE" property="listCode" jdbcType="DECIMAL" />
+    <id column="OBJECT_ID" property="objectId" jdbcType="DECIMAL" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" >
+    delete from PM_SCREEN_INDEX_LIST
+    where LIST_CODE = #{listCode,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.asiainfo.mybatis.po.PmScreenIndexListPo" >
+    insert into PM_SCREEN_INDEX_LIST (LIST_CODE, OBJECT_ID)
+    values (#{listCode,jdbcType=DECIMAL}, #{objectId,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.asiainfo.mybatis.po.PmScreenIndexListPo" >
+    replace  into PM_SCREEN_INDEX_LIST
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="listCode != null" >
+        LIST_CODE,
+      </if>
+      <if test="objectId != null" >
+        OBJECT_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="listCode != null" >
+        #{listCode,jdbcType=DECIMAL},
+      </if>
+      <if test="objectId != null" >
+        #{objectId,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <delete id="deleteOldRecordByPrimaryKey">
+  		DELETE   FROM PM_SCREEN_INDEX_LIST   WHERE LIST_CODE=#{list_code} 
+  </delete>
+  
+  <select id="getAllObjectIdByListCode" resultType="BigDecimal">
+  		select OBJECT_ID from PM_SCREEN_INDEX_LIST where LIST_CODE=#{list_code} 
+  </select>
+</mapper>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.asiainfo.mybatis.mapper.ext.GetSourceDataPoMapper" >
+  <!-- 2003查询新单播报源数据 -->
+  <select id="selectNewsBroadcast" resultType="map">
+  <![CDATA[ 
+  	SELECT (case WHEN t.community_code is null or t.community_code = '' THEN (SELECT p.company_name FROM PM_COMPANY p WHERE p.company_code = t.company_code)
+		   WHEN t.community_code is not null THEN (SELECT pc.company_name FROM PM_COMMUNITY pc WHERE pc.community_code = t.community_code 
+		  AND pc.company_code = t.company_code) END) as area,SUBSTRING(t.repair_date,6,11) as pv,
+		  (case WHEN char_length(t.repair_reason) < 30 THEN t.repair_reason WHEN char_length(t.repair_reason) >= 30 
+		  THEN CONCAT(SUBSTRING(t.repair_reason,1,30),'...') END ) as attribute  
+		  FROM PM_REPAIR_MANAGE t 
+		  WHERE t.company_code in (SELECT ids.company_code FROM PM_COMPANY ids WHERE ids.company_code=#{companyCode})
+		  ORDER BY t.repair_date desc LIMIT 10 ]]>
+  </select>
+   <!-- ********************************************************************************************************** -->
+  <!-- 2010 工单热点图-->
+  <select id="selectWorkbookHotChart" resultType="map">
+    <![CDATA[ 
+  		SELECT 
+			e.CELL_ID cellId, e.LONGITUDE lng ,e.LATITUDE lat,
+			(CASE WHEN e.rank=1 THEN  ( e.`value` +c.`value`) ELSE  e.`value` END ) `value`
+			FROM 
+			(
+				SELECT 
+				 e.CELL_ID , e.LONGITUDE  ,e.LATITUDE,e.`value`, @name :=e.CELL_ID rid,
+				 IF(@name = e.CELL_ID, @rank := @rank + 1, @rank := 1) AS rank
+				FROM 
+				(
+					SELECT e.CELL_ID , e.LONGITUDE  ,e.LATITUDE ,  COUNT(s.repair_id) `value`
+					FROM  
+					PM_REPAIR_MANAGE s
+					INNER JOIN PM_HOUSE a ON a.house_code =s.REPAIR_HOUSE AND s.STATUS='0'
+					AND FIND_IN_SET(a.company_code,(SELECT companyids FROM PM_COMPANY WHERE company_code=#{companyCode}))
+					INNER JOIN PM_UNIT b ON b.unit_code = a.unid_code
+					INNER JOIN PM_BUILDING c ON c.building_code=b.building_code
+					INNER JOIN PM_COMMUNITY	 d ON d.community_code=c.community_code
+					INNER JOIN PM_TD_CELL e ON e.COMPANY_CODE=a.COMPANY_CODE
+					AND e.CELL_RELATION =  d.community_code  			
+					GROUP BY e.CELL_ID
+					ORDER BY COUNT(s.repair_id)
+				) e ,  
+				(  SELECT  @name := NULL, @rank := 0 ) b) e,
+			(
+			SELECT COUNT(*) `value` FROM PM_REPAIR_MANAGE WHERE 
+			 (REPAIR_HOUSE IS NULL OR REPAIR_HOUSE=''  )
+			 AND STATUS='0'
+			 AND FIND_IN_SET(company_code,(SELECT companyids FROM PM_COMPANY WHERE company_code=#{companyCode}))) c
+  ]]>
+  </select>
+<!-- ********************************************************************************************************** -->
+    <!-- 2011 小区分布图-->
+  <select id="selectCellDistributionMap"  resultType="map">
+  		   <![CDATA[ 
+  		   SELECT 	CELL_NAME info,LONGITUDE lng,LATITUDE lat
+				FROM PM_TD_CELL WHERE 
+				FIND_IN_SET(company_code,(SELECT companyids FROM PM_COMPANY WHERE company_code=#{companyCode}))	
+  		     ]]>
+  </select>
+<!-- ********************************************************************************************************** -->
+    <!-- -->
+  <select id=""  resultType="map">
+  		   <![CDATA[ 
+  		   
+  		     ]]>
+  </select>
+</mapper>
